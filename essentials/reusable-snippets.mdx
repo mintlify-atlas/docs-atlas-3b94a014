@@ -1,110 +1,174 @@
 ---
-title: "Reusable snippets"
-description: "Reusable, custom snippets to keep content in sync"
-icon: "recycle"
+title: 'Reusable Snippets'
+description: 'Create and use reusable content snippets to keep your documentation in sync'
+icon: 'recycle'
 ---
 
-import SnippetIntro from '/snippets/snippet-intro.mdx';
+Reusable snippets help you maintain consistency across your documentation by allowing you to write content once and reference it in multiple places. Any updates to the snippet automatically propagate to all pages that use it.
 
-<SnippetIntro />
+<Note>
+All snippet files must be placed in the `snippets` directory. Any page in this directory will be treated as a snippet and will not render as a standalone page.
+</Note>
 
-## Creating a custom snippet
+## Creating a snippet
+
+### Basic snippet
+
+Create a new `.mdx` file in the `snippets` directory with your reusable content.
 
 **Pre-condition**: You must create your snippet file in the `snippets` directory.
 
-<Note>
-  Any page in the `snippets` directory will be treated as a snippet and will not
-  be rendered into a standalone page. If you want to create a standalone page
-  from the snippet, import the snippet into another file and call it as a
-  component.
-</Note>
-
-### Default export
-
-1. Add content to your snippet file that you want to re-use across multiple
-   locations. Optionally, you can add variables that can be filled in via props
-   when you import the snippet.
-
 ```mdx snippets/my-snippet.mdx
-Hello world! This is my content I want to reuse across pages. My keyword of the
-day is {word}.
+Hello world! This is my content I want to reuse across pages.
 ```
 
-<Warning>
-  The content that you want to reuse must be inside the `snippets` directory in
-  order for the import to work.
-</Warning>
-
-2. Import the snippet into your destination file.
+Then import and use it in any page:
 
 ```mdx destination-file.mdx
 ---
-title: My title
+title: My Page
 description: My Description
 ---
 
-import MySnippet from '/snippets/path/to/my-snippet.mdx';
+import MySnippet from '/snippets/my-snippet.mdx';
 
 ## Header
 
-Lorem impsum dolor sit amet.
+Lorem ipsum dolor sit amet.
 
-<MySnippet word="bananas" />
+<MySnippet />
 ```
 
-### Reusable variables
+### Snippets with variables
 
-1. Export a variable from your snippet file:
+You can create dynamic snippets that accept props:
 
-```mdx snippets/path/to/custom-variables.mdx
-export const myName = 'my name';
-
-export const myObject = { fruit: 'strawberries' };
+```mdx snippets/greeting.mdx
+Hello world! This is my content I want to reuse across pages. My keyword of the day is {word}.
 ```
 
-2. Import the snippet from your destination file and use the variable:
+Use the snippet with custom values:
 
 ```mdx destination-file.mdx
 ---
-title: My title
+title: My Page
 description: My Description
 ---
 
-import { myName, myObject } from '/snippets/path/to/custom-variables.mdx';
+import Greeting from '/snippets/greeting.mdx';
 
-Hello, my name is {myName} and I like {myObject.fruit}.
+## Welcome
+
+<Greeting word="documentation" />
 ```
 
-### Reusable components
+<Warning>
+The content that you want to reuse must be inside the `snippets` directory in order for the import to work.
+</Warning>
 
-1. Inside your snippet file, create a component that takes in props by exporting
-   your component in the form of an arrow function.
+## Reusable variables
+
+Export constant values from snippets to maintain consistency across your documentation.
+
+### Step 1: Export variables
+
+Create a snippet file with exported variables:
+
+```mdx snippets/custom-variables.mdx
+export const companyName = 'Acme Corp';
+
+export const supportEmail = 'support@acme.com';
+
+export const config = { 
+  apiVersion: 'v2',
+  baseUrl: 'https://api.acme.com'
+};
+```
+
+### Step 2: Import and use variables
+
+Import the variables in your destination file:
+
+```mdx destination-file.mdx
+---
+title: Contact Us
+description: Get in touch with our team
+---
+
+import { companyName, supportEmail, config } from '/snippets/custom-variables.mdx';
+
+## Support
+
+Welcome to {companyName}! For support, email us at {supportEmail}.
+
+Our API is available at {config.baseUrl}/{config.apiVersion}.
+```
+
+## Reusable components
+
+Create complex reusable components using arrow functions.
+
+### Step 1: Create a component
+
+Inside your snippet file, export a component that accepts props:
 
 ```mdx snippets/custom-component.mdx
-export const MyComponent = ({ title }) => (
-  <div>
-    <h1>{title}</h1>
-    <p>... snippet content ...</p>
+export const FeatureCard = ({ title, description, icon }) => (
+  <div style={{ padding: '20px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+    <h3>{icon} {title}</h3>
+    <p>{description}</p>
   </div>
 );
 ```
 
 <Warning>
-  MDX does not compile inside the body of an arrow function. Stick to HTML
-  syntax when you can or use a default export if you need to use MDX.
+MDX does not compile inside the body of an arrow function. Stick to HTML syntax when you can or use a default export if you need to use MDX components.
 </Warning>
 
-2. Import the snippet into your destination file and pass in the props
+### Step 2: Import and use the component
+
+Import the component and pass in props:
 
 ```mdx destination-file.mdx
 ---
-title: My title
-description: My Description
+title: Features
+description: Product features
 ---
 
-import { MyComponent } from '/snippets/custom-component.mdx';
+import { FeatureCard } from '/snippets/custom-component.mdx';
 
-Lorem ipsum dolor sit amet.
+## Our Features
 
-<MyComponent title={'Custom title'} />
+<FeatureCard 
+  icon="🚀"
+  title="Fast Performance" 
+  description="Lightning-fast response times for all operations."
+/>
+
+<FeatureCard 
+  icon="🔒"
+  title="Secure by Default" 
+  description="Enterprise-grade security built into every layer."
+/>
 ```
+
+## Common use cases
+
+<CardGroup cols={2}>
+  <Card title="API credentials" icon="key">
+    Store API keys, endpoints, and configuration values in one place for easy updates.
+  </Card>
+  <Card title="Legal text" icon="gavel">
+    Reuse disclaimers, terms, and legal notices across multiple pages.
+  </Card>
+  <Card title="Getting started steps" icon="list-check">
+    Create consistent onboarding instructions used across different guides.
+  </Card>
+  <Card title="Version information" icon="code-branch">
+    Maintain version numbers and compatibility tables in a single source.
+  </Card>
+</CardGroup>
+
+<Tip>
+When you update a snippet, all pages that import it will automatically reflect the changes. This makes it easy to maintain consistency across your entire documentation.
+</Tip>

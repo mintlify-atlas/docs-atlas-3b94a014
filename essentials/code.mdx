@@ -1,6 +1,6 @@
 ---
-title: 'Code blocks'
-description: 'Display inline code and code blocks'
+title: 'Code Blocks'
+description: 'Display inline code and code blocks with syntax highlighting'
 icon: 'code'
 ---
 
@@ -8,13 +8,35 @@ icon: 'code'
 
 To denote a `word` or `phrase` as code, enclose it in backticks (`).
 
-```
+```md
 To denote a `word` or `phrase` as code, enclose it in backticks (`).
 ```
 
 ## Code blocks
 
-Use [fenced code blocks](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) by enclosing code in three backticks and follow the leading ticks with the programming language of your snippet to get syntax highlighting. Optionally, you can also write the name of your code after the programming language.
+Use [fenced code blocks](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) by enclosing code in three backticks and follow the leading ticks with the programming language of your snippet to get syntax highlighting.
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+````md
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+````
+
+## Code block with title
+
+Optionally, you can add a title to your code block by adding it after the programming language.
 
 ```java HelloWorld.java
 class HelloWorld {
@@ -33,3 +55,142 @@ class HelloWorld {
 }
 ```
 ````
+
+## Syntax highlighting
+
+Mintlify supports syntax highlighting for all major programming languages. Simply specify the language after the opening backticks.
+
+<Tabs>
+  <Tab title="JavaScript">
+    ```javascript
+    function greet(name) {
+      return `Hello, ${name}!`;
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    def greet(name):
+        return f"Hello, {name}!"
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript
+    function greet(name: string): string {
+      return `Hello, ${name}!`;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## CodeGroup
+
+Use the `CodeGroup` component to group multiple code blocks together with tabs.
+
+<CodeGroup>
+
+```javascript app.js
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+```
+
+```python app.py
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello World!'
+```
+
+```go main.go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello World!")
+}
+```
+
+</CodeGroup>
+
+````md
+<CodeGroup>
+
+```javascript app.js
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+```
+
+```python app.py
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello World!'
+```
+
+</CodeGroup>
+````
+
+## Advanced code block features
+
+### Line highlighting
+
+Highlight specific lines in your code block by adding `{line-numbers}` after the language.
+
+```javascript {2,4-6}
+function calculateTotal(items) {
+  const subtotal = items.reduce((sum, item) => sum + item.price, 0);
+  const tax = subtotal * 0.1;
+  const shipping = 5.99;
+  const discount = subtotal > 100 ? 10 : 0;
+  return subtotal + tax + shipping - discount;
+}
+```
+
+````md
+```javascript {2,4-6}
+function calculateTotal(items) {
+  const subtotal = items.reduce((sum, item) => sum + item.price, 0);
+  const tax = subtotal * 0.1;
+  const shipping = 5.99;
+  const discount = subtotal > 100 ? 10 : 0;
+  return subtotal + tax + shipping - discount;
+}
+```
+````
+
+### Diff markers
+
+Show additions and deletions in code using `+` and `-` at the start of lines.
+
+```javascript
+function greet(name) {
+-  return "Hello " + name;
++  return `Hello, ${name}!`;
+}
+```
+
+````md
+```javascript
+function greet(name) {
+-  return "Hello " + name;
++  return `Hello, ${name}!`;
+}
+```
+````
+
+<Tip>
+Use code blocks to showcase examples, provide implementation details, and make your documentation more actionable.
+</Tip>

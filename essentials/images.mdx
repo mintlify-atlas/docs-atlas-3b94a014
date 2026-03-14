@@ -1,35 +1,67 @@
 ---
-title: 'Images and embeds'
-description: 'Add image, video, and other HTML elements'
+title: 'Images and Embeds'
+description: 'Add images, videos, and other HTML elements to your documentation'
 icon: 'image'
 ---
 
 <img
   style={{ borderRadius: '0.5rem' }}
   src="https://mintlify-assets.b-cdn.net/bigbend.jpg"
+  alt="Beautiful landscape"
 />
 
-## Image
+## Images
 
-### Using Markdown
+### Using Markdown syntax
 
-The [markdown syntax](https://www.markdownguide.org/basic-syntax/#images) lets you add images using the following code
+The [markdown syntax](https://www.markdownguide.org/basic-syntax/#images) lets you add images using the following code:
 
 ```md
-![title](/path/image.jpg)
+![title](/path/to/image.jpg)
 ```
 
-Note that the image file size must be less than 5MB. Otherwise, we recommend hosting on a service like [Cloudinary](https://cloudinary.com/) or [S3](https://aws.amazon.com/s3/). You can then use that URL and embed.
+<Note>
+Image file sizes must be less than 5MB. For larger images, host them on a service like [Cloudinary](https://cloudinary.com/) or [S3](https://aws.amazon.com/s3/) and use the URL.
+</Note>
 
-### Using embeds
+### Using HTML img tags
 
-To get more customizability with images, you can also use [embeds](/writing-content/embed) to add images
+To get more customizability with images, you can use HTML `<img>` tags with inline styles:
 
 ```html
-<img height="200" src="/path/image.jpg" />
+<img height="200" src="/path/to/image.jpg" alt="Description" />
 ```
 
-## Embeds and HTML elements
+Example with styling:
+
+```html
+<img
+  style={{ borderRadius: '0.5rem', maxWidth: '600px' }}
+  src="/images/screenshot.png"
+  alt="Application screenshot"
+/>
+```
+
+## Image best practices
+
+<CardGroup cols={2}>
+  <Card title="Optimize file sizes" icon="gauge-high">
+    Keep images under 5MB for fast loading. Use compression tools or CDN hosting for larger images.
+  </Card>
+  <Card title="Use descriptive alt text" icon="text">
+    Always include alt text for accessibility and SEO. Describe what the image shows.
+  </Card>
+  <Card title="Choose the right format" icon="file-image">
+    Use PNG for screenshots, SVG for logos and icons, and JPG for photos.
+  </Card>
+  <Card title="Use consistent styling" icon="palette">
+    Apply consistent border radius and spacing to maintain visual harmony.
+  </Card>
+</CardGroup>
+
+## Video embeds
+
+Embed videos using iframes. Here's an example with YouTube:
 
 <iframe
   width="560"
@@ -42,18 +74,53 @@ To get more customizability with images, you can also use [embeds](/writing-cont
   style={{ width: '100%', borderRadius: '0.5rem' }}
 ></iframe>
 
-<br />
+```html
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/4KzFe50RQkQ"
+  title="YouTube video player"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+  style={{ width: '100%', borderRadius: '0.5rem' }}
+></iframe>
+```
+
+## HTML elements
 
 <Tip>
-
 Mintlify supports [HTML tags in Markdown](https://www.markdownguide.org/basic-syntax/#html). This is helpful if you prefer HTML tags to Markdown syntax, and lets you create documentation with infinite flexibility.
-
 </Tip>
 
-### iFrames
+You can use any HTML element in your MDX files:
 
-Loads another HTML page within the document. Most commonly used for embedding videos.
+- `<iframe>` - Embed external content like videos
+- `<img>` - Display images with custom styling
+- `<video>` - Embed video files directly
+- `<a>` - Create links with custom attributes
+- `<div>`, `<span>` - Structure and style content
+
+### Example: Custom container
 
 ```html
-<iframe src="https://www.youtube.com/embed/4KzFe50RQkQ"> </iframe>
+<div style={{ 
+  padding: '20px', 
+  background: '#f5f5f5', 
+  borderRadius: '8px',
+  marginTop: '16px'
+}}>
+  <h4>Custom Container</h4>
+  <p>You can create custom styled containers using HTML and inline styles.</p>
+</div>
 ```
+
+<div style={{ 
+  padding: '20px', 
+  background: '#f5f5f5', 
+  borderRadius: '8px',
+  marginTop: '16px'
+}}>
+  <h4>Custom Container</h4>
+  <p>You can create custom styled containers using HTML and inline styles.</p>
+</div>
